@@ -8,25 +8,28 @@
 // Biblioteka <iostream> służy do obsługi strumieni wejścia/wyjścia (odpowiednik
 // <stdio.h> w języku C).
 #include <iostream>
+#include <sstream>
+#include <algorithm>
 
-MatVect add_vectors(MatVect l, MatVect s) {
-    if(l.size() < s.size())return add_vectors(s,l);
-    MatVect resp(l.size());
-    for(size_t i = 0; i < s.size(); i++)
-        resp.set_elem(i, l.get_elem(i) + s.get_elem(i));
-    for(size_t i = s.size(); i < l.size(); i++)
-        resp.set_elem(i, l.get_elem(i));
-    return resp;
+MatVect add_vectors(const MatVect& v1, const MatVect& v2) {
+    MatVect s(v1.size());
+    std::transform(v1.cbegin(), v1.cend(), v2.cbegin(), s.begin(), std::plus<>());
+    return s;
 }
 
-void MatVect::print_vector() {
-    for (int i : v_)std::cout<<i<<", ";
+void MatVect::print_vector() const{
+    for (const int& i : v_)std::cout<<i<<", ";
     std::cout<<std::endl;
 }
 
-
-double MatVect::norm() {
+double MatVect::norm() const {
     int s = 0;
     for(int i : v_) s += i*i;
     return sqrt(s);
+}
+
+std::string to_string(const MatVect& vec){
+    std::ostringstream stream;
+    for(const int& i : vec) stream << i << " ";
+    return stream.str();
 }
