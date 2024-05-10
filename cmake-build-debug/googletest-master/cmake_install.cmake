@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/Iskra/Desktop/AGH pliki/infa sem 2/repos/mdig-agh-lang_cpp__exercises-288bd81c85d7/skeletons/matlab-1/cmake-build-debug/googletest-master/googlemock/cmake_install.cmake")
+  include("C:/Users/Iskra/Desktop/AGH pliki/infa sem 2/repos/mdig-agh-lang_cpp__exercises-288bd81c85d7/skeletons/matlab-2/cmake-build-debug/googletest-master/googlemock/cmake_install.cmake")
 
 endif()
 

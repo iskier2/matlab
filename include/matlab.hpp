@@ -3,9 +3,22 @@
 
 // Biblioteka <cstddef> zawiera definicję typu `std::size_t`.
 #include <cstddef>
+#include <vector>
+#include <cmath>
+#include <vector>
+class MatVect{
+private:
+    std::vector<int> v_ = {};
+public:
+    explicit MatVect(size_t size){for (size_t i = 0; i < size; ++i) v_.push_back(0);}
+    auto get_elem(size_t pos){return v_[pos];}
+    void set_elem(size_t pos, int val){v_[pos] = val;}
+    size_t size(){return v_.size();}
+    double norm();
+    void print_vector();
+};
 
-int* add_vectors(int* v1, int* v2, std::size_t n);
+MatVect add_vectors(MatVect v1, MatVect v2);
 
-void print_vector(int* v, std::size_t n);
 
 #endif /* INCLUDE_MATLAB_HPP_ */

@@ -9,16 +9,24 @@
 // <stdio.h> w języku C).
 #include <iostream>
 
-int* add_vectors(int* v1, int* v2, std::size_t n) {
-    int* resp = (int*)malloc(n*sizeof(int));
-    for (int i = 0; i < (int)n; i++) {
-        resp[i] = v1[i] + v2[i];
-    }
+MatVect add_vectors(MatVect l, MatVect s) {
+    if(l.size() < s.size())return add_vectors(s,l);
+    MatVect resp(l.size());
+    for(size_t i = 0; i < s.size(); i++)
+        resp.set_elem(i, l.get_elem(i) + s.get_elem(i));
+    for(size_t i = s.size(); i < l.size(); i++)
+        resp.set_elem(i, l.get_elem(i));
     return resp;
 }
 
-void print_vector(int* v, std::size_t n) {
-    for (int i = 0; i < (int)n; i++) {
-        std::cout << (v[i]) << std::endl;
-    }
+void MatVect::print_vector() {
+    for (int i : v_)std::cout<<i<<", ";
+    std::cout<<std::endl;
+}
+
+
+double MatVect::norm() {
+    int s = 0;
+    for(int i : v_) s += i*i;
+    return sqrt(s);
 }
