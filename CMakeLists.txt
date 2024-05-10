@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(PROJECT_ID matlab_3)
+set(PROJECT_ID matlab_5)
 
 set(SOURCE_FILES
         src/matlab.cpp

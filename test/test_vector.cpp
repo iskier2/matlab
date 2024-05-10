@@ -32,5 +32,16 @@ TEST(MatlabVectorTest, add) {
 }
 TEST(MatlabVectorTest, toSting) {
     MatVect v({1, 2, 3});
-    EXPECT_EQ(to_string(v), "1 2 3 ");
+    EXPECT_EQ(to_string(v), "[ 1, 2, 3 ]");
+}
+
+TEST(MatlabVectorTest, dodatkowe){
+    Matrix mat(5, 5);
+    mat[1][1] = 1;
+    std::cout<<to_string(mat);
+    Matrix mat2({{1, 2}, {3, 4}});
+    std::cout<<to_string(mat2);
+    Matrix mat3({{9, 8}, {7, 6}});
+    std::cout<<to_string(add_matrices(mat2, mat3));
+    std::cout<<mat3.sum()<<" "<<mat3[1][1];
 }

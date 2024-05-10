@@ -7,17 +7,21 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <numeric>
 
 
 class MatVect{
 private:
     std::vector<int> v_;
 public:
-    explicit MatVect(size_t size) : v_(size, 0){}
-    explicit MatVect(const std::vector<int>& vec) : v_(vec){}
+    MatVect(size_t size = 3) : v_(size, 0){}
+    MatVect(const std::vector<int>& vec) : v_(vec){}
+    MatVect(const MatVect&) = default;
 
     std::vector<int>::iterator  begin() {return v_.begin();}
     std::vector<int>::iterator  end() {return v_.end();}
+
+    [[nodiscard]] double sum() const{return std::accumulate(begin(), end(), 0);};
 
     void print_vector() const;
 
@@ -34,8 +38,38 @@ public:
     const int& operator[](std::size_t pos) const { return v_[pos]; }  // inspector
     int& operator[](std::size_t pos) { return v_[pos]; }  // mutator
 };
+class Matrix{
+private:
+    std::vector<MatVect> matrix_;
+public:
+    Matrix(std::size_t n_rows, std::size_t n_cols) : matrix_(n_rows, MatVect(n_cols)) {};
+
+    Matrix(const Matrix&) = default;
+
+    explicit Matrix(const std::vector<std::vector<int>>& m){
+        std::copy(m.begin(), m.end(), std::back_inserter(matrix_));
+    };
+    [[nodiscard]] double sum() const;
+
+    MatVect& operator[](const size_t& index){return matrix_[index];};
+    const MatVect& operator[](const size_t& index) const {return matrix_[index];};
+
+    std::vector<MatVect>::iterator begin(){return matrix_.begin();};
+    std::vector<MatVect>::iterator end(){return matrix_.end();};
+
+    [[nodiscard]] std::size_t size() const {return matrix_.size();};
+
+    [[nodiscard]] std::vector<MatVect>::const_iterator begin() const {return matrix_.cbegin();};
+    [[nodiscard]] std::vector<MatVect>::const_iterator end() const {return matrix_.cend();};
+
+    [[nodiscard]] std::vector<MatVect>::const_iterator cbegin() const {return matrix_.cbegin();};
+    [[nodiscard]] std::vector<MatVect>::const_iterator cend() const {return matrix_.cend();};
+
+};
 
 MatVect add_vectors(const MatVect& v1, const MatVect& v2);
+Matrix add_matrices(const Matrix& m1, const Matrix& m2);
 
 std::string to_string(const MatVect& vec);
+std::string to_string(const Matrix& m);
 #endif /* INCLUDE_MATLAB_HPP_ */
