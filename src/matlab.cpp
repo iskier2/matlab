@@ -12,6 +12,8 @@
 #include <algorithm>
 
 Matlab::Vector Matlab::add_vectors(const Matlab::Vector& v1, const Matlab::Vector& v2) {
+    if(v1.size() != v2.size())
+        throw std::invalid_argument("Vectors have unequal size (" + std::to_string(v1.size()) + " and " + std::to_string(v2.size()) + ").");
     Matlab::Vector s(v1.size());
     std::transform(v1.cbegin(), v1.cend(), v2.cbegin(), s.begin(), std::plus<>());
     return s;
@@ -52,4 +54,13 @@ double Matlab::Matrix::sum() const {
                            [](int accumulator, const Matlab::Vector& vector) {
         return accumulator + vector.sum();
     });
+}
+
+std::string Matlab::was_exception_raised_when_adding_vectors(const Matlab::Vector& v1, const Matlab::Vector& v2){
+    try {
+        Matlab::add_vectors(v1, v2);
+        return"";
+    }catch (const std::invalid_argument& err){
+        return err.what();
+    }
 }

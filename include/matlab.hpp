@@ -85,5 +85,7 @@ namespace Matlab {
     std::string to_string(const Vector &vec);
 
     std::string to_string(const Matrix &m);
+
+    std::string was_exception_raised_when_adding_vectors(const Vector& v1, const Vector& v2);
 }
 #endif /* INCLUDE_MATLAB_HPP_ */

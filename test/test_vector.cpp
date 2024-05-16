@@ -45,3 +45,22 @@ TEST(MatlabVectorTest, dodatkowe){
     std::cout<<to_string(add_matrices(mat2, mat3));
     std::cout<<mat3.sum()<<" "<<mat3[1][1];
 }
+TEST(MatlabVectorTest, addVectorsOfSameSize ){
+    std::vector<int> v1({1,2});
+    std::vector<int> v2({3,4});
+    ASSERT_NO_THROW({
+        Matlab::Vector vs = Matlab::add_vectors(v1, v2);
+        ASSERT_EQ(vs.size(), 2U);
+        EXPECT_EQ(vs[0], 4);
+        EXPECT_EQ(vs[1], 6);
+    });
+}
+TEST(MatlabVectorTest, addVectorsOfDifferentSize ){
+    ASSERT_THROW(Matlab::add_vectors({1},{2}),std::invalid_argument);
+}
+TEST(MatlabVectorTest, exceptionCatchingWhenAddingVectorsOfSameSizes  ){
+    EXPECT_EQ(Matlab::was_exception_raised_when_adding_vectors({3},{3}), "");
+}
+TEST(MatlabVectorTest, exceptionCatchingWhenAddingVectorsOfDifferentSizes ){
+    EXPECT_EQ(Matlab::was_exception_raised_when_adding_vectors({3},{5}), "Vectors have unequal size (3 and 5).");
+}
