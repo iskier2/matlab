@@ -9,67 +9,81 @@
 #include <string>
 #include <numeric>
 
+namespace Matlab {
+    class Vector {
+    private:
+        std::vector<int> v_;
+    public:
+        Vector(size_t size = 3) : v_(size, 0) {}
 
-class MatVect{
-private:
-    std::vector<int> v_;
-public:
-    MatVect(size_t size = 3) : v_(size, 0){}
-    MatVect(const std::vector<int>& vec) : v_(vec){}
-    MatVect(const MatVect&) = default;
+        Vector(const std::vector<int> &vec) : v_(vec) {}
 
-    std::vector<int>::iterator  begin() {return v_.begin();}
-    std::vector<int>::iterator  end() {return v_.end();}
+        Vector(const Vector &) = default;
 
-    [[nodiscard]] double sum() const{return std::accumulate(begin(), end(), 0);};
+        std::vector<int>::iterator begin() { return v_.begin(); }
 
-    void print_vector() const;
+        std::vector<int>::iterator end() { return v_.end(); }
 
-    [[nodiscard]] double norm() const;
+        [[nodiscard]] double sum() const { return std::accumulate(begin(), end(), 0); };
 
-    [[nodiscard]] size_t size() const {return v_.size();}
+        void print_vector() const;
 
-    [[nodiscard]] std::vector<int>::const_iterator  begin() const {return v_.cbegin();}
-    [[nodiscard]] std::vector<int>::const_iterator  end() const {return v_.cend();}
+        [[nodiscard]] double norm() const;
 
-    [[nodiscard]] std::vector<int>::const_iterator  cbegin()const {return v_.cbegin();}
-    [[nodiscard]] std::vector<int>::const_iterator  cend()const {return v_.cend();}
+        [[nodiscard]] size_t size() const { return v_.size(); }
 
-    const int& operator[](std::size_t pos) const { return v_[pos]; }  // inspector
-    int& operator[](std::size_t pos) { return v_[pos]; }  // mutator
-};
-class Matrix{
-private:
-    std::vector<MatVect> matrix_;
-public:
-    Matrix(std::size_t n_rows, std::size_t n_cols) : matrix_(n_rows, MatVect(n_cols)) {};
+        [[nodiscard]] std::vector<int>::const_iterator begin() const { return v_.cbegin(); }
 
-    Matrix(const Matrix&) = default;
+        [[nodiscard]] std::vector<int>::const_iterator end() const { return v_.cend(); }
 
-    explicit Matrix(const std::vector<std::vector<int>>& m){
-        std::copy(m.begin(), m.end(), std::back_inserter(matrix_));
+        [[nodiscard]] std::vector<int>::const_iterator cbegin() const { return v_.cbegin(); }
+
+        [[nodiscard]] std::vector<int>::const_iterator cend() const { return v_.cend(); }
+
+        const int &operator[](std::size_t pos) const { return v_[pos]; }  // inspector
+        int &operator[](std::size_t pos) { return v_[pos]; }  // mutator
     };
-    [[nodiscard]] double sum() const;
 
-    MatVect& operator[](const size_t& index){return matrix_[index];};
-    const MatVect& operator[](const size_t& index) const {return matrix_[index];};
+    class Matrix {
+    private:
+        std::vector<Vector> matrix_;
+    public:
+        Matrix(std::size_t n_rows, std::size_t n_cols) : matrix_(n_rows, Vector(n_cols)) {};
 
-    std::vector<MatVect>::iterator begin(){return matrix_.begin();};
-    std::vector<MatVect>::iterator end(){return matrix_.end();};
+        Matrix(const Matrix &) = default;
 
-    [[nodiscard]] std::size_t size() const {return matrix_.size();};
+        explicit Matrix(const std::vector<std::vector<int>> &m) {
+            std::copy(m.begin(), m.end(), std::back_inserter(matrix_));
+        };
 
-    [[nodiscard]] std::vector<MatVect>::const_iterator begin() const {return matrix_.cbegin();};
-    [[nodiscard]] std::vector<MatVect>::const_iterator end() const {return matrix_.cend();};
+        [[nodiscard]] double sum() const;
 
-    [[nodiscard]] std::vector<MatVect>::const_iterator cbegin() const {return matrix_.cbegin();};
-    [[nodiscard]] std::vector<MatVect>::const_iterator cend() const {return matrix_.cend();};
+        Vector &operator[](const size_t &index) { return matrix_[index]; };
 
-};
+        const Vector &operator[](const size_t &index) const { return matrix_[index]; };
 
-MatVect add_vectors(const MatVect& v1, const MatVect& v2);
-Matrix add_matrices(const Matrix& m1, const Matrix& m2);
+        std::vector<Vector>::iterator begin() { return matrix_.begin(); };
 
-std::string to_string(const MatVect& vec);
-std::string to_string(const Matrix& m);
+        std::vector<Vector>::iterator end() { return matrix_.end(); };
+
+        [[nodiscard]] std::size_t size() const { return matrix_.size(); };
+
+        [[nodiscard]] std::vector<Vector>::const_iterator begin() const { return matrix_.cbegin(); };
+
+        [[nodiscard]] std::vector<Vector>::const_iterator end() const { return matrix_.cend(); };
+
+        [[nodiscard]] std::vector<Vector>::const_iterator cbegin() const { return matrix_.cbegin(); };
+
+        [[nodiscard]] std::vector<Vector>::const_iterator cend() const { return matrix_.cend(); };
+
+    };
+
+    Vector add_vectors(const Vector &v1, const Vector &v2);
+
+    Matrix add_matrices(const Matrix &m1, const Matrix &m2);
+
+    std::string to_string(const Vector &vec);
+
+    std::string to_string(const Matrix &m);
+}
 #endif /* INCLUDE_MATLAB_HPP_ */
